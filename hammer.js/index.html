@@ -40,7 +40,7 @@
         background-color: cyan;
         width: 100%;
         height: 100%;
-        overflow: scroll;
+        /*overflow: scroll;*/
     }
     
     .animate > .slide {
@@ -60,6 +60,7 @@
 </body>
 <script src="hammer.js"></script>
 <script src="jquery-1.11.2.js"></script>
+<script src="iscroll.js"></script>
 <script>
 var reqAnimationFrame = (function() {
     return window[Hammer.prefixed(window, "requestAnimationFrame")] || function(callback) {
@@ -141,11 +142,30 @@ HammerCarousel.prototype = {
      * @param {Object} ev
      */
     onPan: function(ev) {
-        if (this.currentIndex === 1) {
-            if (!(page2.scrollTop === 0 && ev.direction === Hammer.DIRECTION_DOWN)) {
-                return;
-            }
+        console.log(ev.type);
+        var pauseHammer;
+        if(ev.type == 'panend') {
+            this.inTransition = false;
+            // very lite, just a prop changed
+            myScroll.enable();
         }
+        if (this.currentIndex === 1) {
+            pauseHammer = true;
+            console.log(myScroll.y);
+            if( myScroll.y === 0 && ev.direction === Hammer.DIRECTION_DOWN){
+                myScroll.disable();
+                if(ev.type == "panstart") {this.inTransition = true;}
+                pauseHammer = false;
+            }
+            if( ev.direction == Hammer.DIRECTION_UP && this.inTransition){
+                pauseHammer = false;
+            }
+            /*if (!( myScroll.y = 0 && ev.direction === Hammer.DIRECTION_DOWN)) {
+                return;
+            }*/
+        }
+
+        if(pauseHammer) return;
         ev.preventDefault();
         var delta = dirProp(this.direction, ev.deltaX, ev.deltaY);
         var percent = (100 / this.containerSize) * delta;
@@ -168,6 +188,16 @@ HammerCarousel.prototype = {
 var outer = new HammerCarousel(document.querySelector(".container"), Hammer.DIRECTION_VERTICAL);
 var scrollTop;
 var page2 = document.querySelector('.page2')
+
+$(function() {
+    myScroll = new IScroll('.page2', {
+        scrollX: false,
+        scrollY: true,
+        momentum: true,   
+        bounce: false 
+    });    
+    myScroll.on('beforeScrollStart', function(e, a,b) {console.log(e,a,b)})
+})
 </script>
 
 </html>
