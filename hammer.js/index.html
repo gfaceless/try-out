@@ -142,27 +142,25 @@ HammerCarousel.prototype = {
      * @param {Object} ev
      */
     onPan: function(ev) {
-        console.log(ev.type);
+        console.log(ev.type, this.currentIndex);
         var pauseHammer;
-        if(ev.type == 'panend') {
-            this.inTransition = false;
-            // very lite, just a prop changed
-            myScroll.enable();
-        }
+        
         if (this.currentIndex === 1) {
             pauseHammer = true;
-            console.log(myScroll.y);
             if( myScroll.y === 0 && ev.direction === Hammer.DIRECTION_DOWN){
                 myScroll.disable();
                 if(ev.type == "panstart") {this.inTransition = true;}
                 pauseHammer = false;
             }
-            if( ev.direction == Hammer.DIRECTION_UP && this.inTransition){
+            console.log(myScroll.y, this.inTransition);
+            if( ev.direction != Hammer.DIRECTION_DOWN && this.inTransition){
                 pauseHammer = false;
             }
-            /*if (!( myScroll.y = 0 && ev.direction === Hammer.DIRECTION_DOWN)) {
-                return;
-            }*/
+            if(ev.type == 'panend') {
+                this.inTransition = false;
+                // very lite, just a prop changed
+                myScroll.enable();
+            }            
         }
 
         if(pauseHammer) return;
