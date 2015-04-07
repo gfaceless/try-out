@@ -43,9 +43,8 @@ HammerCarousel.prototype = {
      * @param {Boolean} [animate]
      */
     show: function(showIndex, percent, animate) {
-        showIndex = Math.max(0, Math.min(showIndex, this.panes.length - 1));
-        percent = percent || 0;
-
+        showIndex = Math.max(0, Math.min(showIndex, this.panes.length - 1));        
+        percent = percent ||0;
         var className = this.container.className;
         if (animate) {
             if (className.indexOf('animate') === -1) {
@@ -64,10 +63,14 @@ HammerCarousel.prototype = {
 
             pos = (this.containerSize / 100) * (((paneIndex - showIndex) * 100) + percent);
             
-            var modifier = paneIndex === this.currentIndex ? .1 : 1;
+            var modifier = paneIndex === 0 ? .3 : 1;
             translate = 'translate3d(0, ' + pos * modifier + 'px, 0)'
-            
-            scale = paneIndex === this.currentIndex ? (1 - Math.min(Math.abs(percent*0.003), 1)) : 1;
+            // tmp:
+            var tmp = percent;
+            if(this.currentIndex === 1 && percent >= 0) {
+                tmp = 100 - percent;
+            }
+            scale = paneIndex === 0 ? (1 - Math.abs(tmp*0.002)) : 1;
             console.log('percent and scale is', percent, scale);
             scaleStr = 'scale(' + scale + ')';
             this.panes[paneIndex].style.transform = translate + " " + scaleStr;
@@ -105,23 +108,36 @@ HammerCarousel.prototype = {
                 myScroll.enable();
             }
         }
+
+
         if (pauseHammer) return;
         ev.preventDefault();
 
         var delta = dirProp(this.direction, ev.deltaX, ev.deltaY);
-        var percent = (100 / this.containerSize) * delta;
-        var animate = false;
+        var percent = (100 / this.containerSize) * delta || 0;
 
+        var animate = false;
+        var shouldChangeIndex;
         if (ev.type == 'panend' || ev.type == 'pancancel') {
             if (Math.abs(percent) > 20 && ev.type == 'panend') {
-                this.currentIndex += (percent < 0) ? 1 : -1;
+                if(this.currentIndex === 0 && percent>0){
+                    percent = 0;
+                } else {
+                    percent = percent < 0 ? -100 : 100;
+                    shouldChangeIndex = true;                    
+                }
+            } else {
+                percent = 0;
             }
-            percent = 0;
             animate = true;
         }
 
 
         this.show(this.currentIndex, percent, animate);
+        if(shouldChangeIndex){
+            this.currentIndex += (percent < 0) ? 1 : -1;
+            if(this.currentIndex < 0) this.currentIndex = 0;
+        }
     }
 };
 
