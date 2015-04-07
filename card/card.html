@@ -32,7 +32,7 @@
 
 		/* flip speed goes here */
 		.flipper {
-			transition: 0.6s;
+			transition: 1.2s;
 			-webkit-transform-style: preserve-3d;
 			        transform-style: preserve-3d;
 
@@ -56,7 +56,7 @@
 			-webkit-transform: rotate3d(0, 1, 0, 0deg);
 			        transform: rotate3d(0, 1, 0, 0deg);
 			/*background-color: blue;*/
-			background: url("02.jpg") no-repeat ;
+			background: orange no-repeat ;
 			background-size: contain;
 		}
 
@@ -92,13 +92,13 @@
 		$(".flip-container").addClass('hover')
 		setTimeout(function () {
 			$el.css({
-				transform: "rotate3d(0, 1, 0, 0deg)",
+				transform: "rotate3d(0, 1, 0, 540deg)",
 				width: 950, 
 				height: 1686,
-				"-webkitTransform": "rotate3d(0, 1, 0, 0deg)"
+				"-webkitTransform": "rotate3d(0, 1, 0, 540deg)"
 			});
 			
-		}, 800)
+		}, 1800)
 	}, 2000)
 
 // 
