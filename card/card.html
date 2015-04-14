@@ -1,43 +1,45 @@
+<!DOCTYPE html>
+
 <html>
 <head>
 	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
 	<title>Document</title>
 	
 	<style>
+		body{
+			margin: 0;
 
-		/* entire container, keeps perspective */
-		.flip-container {
 			perspective: 1000;
 			-webkit-perspective: 1000;
 		}
-			/* flip the pane when hovered */
-			 /* .flip-container:hover  .flipper, */ .flip-container.hover .flipper {
-				-webkit-transform: rotate3d(0, 1, 0, 180deg);
-				        transform: rotate3d(0, 1, 0, 180deg);
-			}
+		.first-flip {
+
+			-webkit-transform: translate3d(0, 0, 0) rotate3d(0, 1, 0, 180deg) scale3d(1,1,1);
+			        transform: translate3d(0, 0, 0) rotate3d(0, 1, 0, 180deg) scale3d(1,1,1);
+		}
 		
 		.flipper{
-			width: 400px;
-			height: 710px;
-		}
-		.flip-container, .front, .back {
-			/* width: 320px;
-			height: 480px; */
-		}
+			
+			width: 138px;
+			height: 100px;
+			transition: all 1.2s;
+			-webkit-transition: all 1.2s;
+			-webkit-transform-style: preserve-3d;
+			        transform-style: preserve-3d;
+
+			position: absolute;
+			left: 0;
+			top: 0;
+			border: 5px solid black;
+		}		
 
 		.front, .back{
 			width: 100%;
 			height: 100%;				
 		}
 
-		/* flip speed goes here */
-		.flipper {
-			transition: 1.2s;
-			-webkit-transform-style: preserve-3d;
-			        transform-style: preserve-3d;
-
-			position: relative;
-		}
 
 		/* hide back of pane during swap */
 		.front, .back {
@@ -51,56 +53,87 @@
 
 		/* front pane, placed above back */
 		.front {
-			z-index: 2;
+			/*z-index: 2;*/
 			/* for firefox 31 */
-			-webkit-transform: rotate3d(0, 1, 0, 0deg);
-			        transform: rotate3d(0, 1, 0, 0deg);
+			-webkit-transform: translate3d(0, 0, 0) rotate3d(0, 1, 0, 180deg) scale3d(1,1,1);
+			        transform: translate3d(0, 0, 0) rotate3d(0, 1, 0, 180deg) scale3d(1,1,1);
 			/*background-color: blue;*/
-			background: orange no-repeat ;
+			background: url("1.png") no-repeat ;
+			
 			background-size: contain;
 		}
 
 		/* back, initially hidden pane */
 		.back {
 			/*background-color: red;*/
-			background: url("04.jpg") no-repeat ;
+			background: url("back.png") no-repeat ;
 			background-size: contain;
-			-webkit-transform: rotate3d(0, 1, 0, 180deg);
-			        transform: rotate3d(0, 1, 0, 180deg);
+			-webkit-transform: translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg) scale3d(1,1,1);
+			        transform: translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg) scale3d(1,1,1);
 		}
-
+		.second-flip{
+			-webkit-transform: translate3d(0, 0, 0) rotate3d(0, 1, 0, 540deg) scale3d(1,1,1);
+			        transform: translate3d(0, 0, 0) rotate3d(0, 1, 0, 540deg) scale3d(1,1,1);
+		}
 	</style>
 </head>
 <body>
-	<div class="flip-container">
-		<div class="flipper">
-			<div class="front">
-				<!-- front content -->
-			</div>
-			<div class="back">
-				<!-- back content -->
-			</div>
+	
+	<div class="flipper">
+		<div class="back"></div>
+		<div class="front">
+			
 		</div>
-	</div>
+		</div>
+	
 </body>
 <script src="zepto.js"></script>
-<script src="fx.js"></script>
-<script>
-	$el = $('.flipper');
-	setTimeout(function () {
-		
-		$(".flip-container").addClass('hover')
-		setTimeout(function () {
-			$el.css({
-				transform: "rotate3d(0, 1, 0, 540deg)",
-				width: 950, 
-				height: 1686,
-				"-webkitTransform": "rotate3d(0, 1, 0, 540deg)"
-			});
-			
-		}, 1800)
-	}, 2000)
 
-// 
+<script>
+	var $el = $('.flipper');
+	var $f = $('.front');
+	var w =$(window).width();
+	var h =$(window).height();
+	var _w = $el.width();
+	var _h = $el.height();
+	preloadImage('2.jpg');
+	
+	var ratioX = +parseFloat(w / _w).toFixed(2);
+	var ratioY = +parseFloat(h / _h).toFixed(2);
+	var tx = ( w - _w) / 2;
+	var ty = ( h - _h) / 2;
+	console.log(ratioX, ratioY);
+	console.log(tx, ty);
+	function init () {
+		$(".flipper").addClass('first-flip')
+			setTimeout(function () {
+				
+				$el[0].style.WebkitTransform = 
+					/*"translate3d(" + tx + 'px, ' + ty + 'px, 0)' 
+					+*/
+					" rotate3d(0, 1, 0, 540deg)"
+					+
+					" scale3d(" + ratioX + ", " + ratioY  + ", 1)"
+					// transformOrigin: "0 0"
+				/*.addClass('second-flip');*/
+				
+				setTimeout(function () {
+					$f.css('backgroundImage', "url(2.jpg)")
+					$f.css('backgroundSize', "cover");
+				}, 600)
+			}, 1800)
+	}
+	
+	setTimeout(function () {
+		// body...
+		init();
+	}, 500)
+
+	function preloadImage(url)
+	{
+	    var img=new Image();
+	    img.src=url;
+	}
+
 </script>
 </html>
