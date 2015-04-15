@@ -1,91 +1,179 @@
 <!DOCTYPE html>
-
 <html>
+
 <head>
-	<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Document</title>
+    <style>
+    body {
+        margin: 0;
+        perspective: 1000;
+        -webkit-perspective: 1000;
 
-	<title>Document</title>
-	
-	<style>
-		body{
-			margin: 0;
-
-			perspective: 1000;
-			-webkit-perspective: 1000;
-		}
-		.first-flip {
-
-			-webkit-transform: translate3d(0, 0, 0) rotate3d(0, 1, 0, 180deg) scale3d(1,1,1);
-			        transform: translate3d(0, 0, 0) rotate3d(0, 1, 0, 180deg) scale3d(1,1,1);
-		}
+    }
+    .container {
+    	width: 100%;
+    	height: 100%;
+    	position: relative;
+    }
+    /* .first-flip {
 		
-		.flipper{
-			
-			width: 138px;
-			height: 100px;
-			transition: all 1.2s;
-			-webkit-transition: all 1.2s;
-			-webkit-transform-style: preserve-3d;
-			        transform-style: preserve-3d;
-
-			position: absolute;
-			left: 0;
-			top: 0;
-			/*border: 5px solid black;*/
-		}		
-
-		.front, .back{
-			width: 100%;
-			height: 100%;				
-		}
-
-
-		/* hide back of pane during swap */
-		.front, .back {
-			-webkit-backface-visibility: hidden;
-			        backface-visibility: hidden;
-
-			position: absolute;
-			top: 0;
-			left: 0;
-		}
-
-		/* front pane, placed above back */
-		.front {
-			/*z-index: 2;*/
-			/* for firefox 31 */
 			-webkit-transform: translate3d(0, 0, 0) rotate3d(0, 1, 0, 180deg) scale3d(1,1,1);
 			        transform: translate3d(0, 0, 0) rotate3d(0, 1, 0, 180deg) scale3d(1,1,1);
-			/*background-color: blue;*/
-			background: url("1.png") no-repeat ;
-			
-			background-size: 100% 100%;
-		}
 
-		/* back, initially hidden pane */
-		.back {
-			/*background-color: red;*/
-			background: url("back.png") no-repeat ;
-			background-size: 100% 100%;
-			-webkit-transform: translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg) scale3d(1,1,1);
-			        transform: translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg) scale3d(1,1,1);
 		}
 		.second-flip{
 			-webkit-transform: translate3d(0, 0, 0) rotate3d(0, 1, 0, 900deg) scale3d(1,1,1);
 			        transform: translate3d(0, 0, 0) rotate3d(0, 1, 0, 900deg) scale3d(1,1,1);
 		}
-	</style>
+		 */
+    
+    .flipper1, .flipper2, .flipper3, .flipper4 {
+        width: 138px;
+        height: 100px;
+        transition: all 1.2s;
+        -webkit-transition: all 1.2s;
+        -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+        position: absolute;
+        left: 0;
+        top: 0;
+        /*border: 5px solid black;*/
+    }
+    
+    .flipper2 {
+        left: 33%;
+        top: 0;
+    }
+    .flipper3 {
+        left: 33%;
+        top: 33%;
+    }
+    .flipper4 {
+        left: 66%;
+        top: 66%;
+    }
+    .flipper4 img{
+        max-width: 100%;
+        height: auto;
+    }
+    .front,
+    .back {
+        width: 100%;
+        height: 100%;
+    }
+    /* hide back of pane during swap */
+    
+    .front,
+    .back {
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    /* front pane, placed above back */
+    
+    .front {
+        /*z-index: 2;*/
+        /* for firefox 31 */
+        
+        -webkit-transform: translate3d(0, 0, 0) rotate3d(0, 1, 0, 180deg) scale3d(1, 1, 1);
+        transform: translate3d(0, 0, 0) rotate3d(0, 1, 0, 180deg) scale3d(1, 1, 1);
+        /*background-color: blue;*/
+        
+        /* background: url("images/s-big01.png") no-repeat;
+        background-size: 100% 100%; */
+    }
+    /* back, initially hidden pane */
+    
+    .back {
+        /*background-color: red;*/
+        
+        /* background: url("images/s-bg01.png") no-repeat;
+        background-size: 100% 100%; */
+        -webkit-transform: translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg) scale3d(1, 1, 1);
+        transform: translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg) scale3d(1, 1, 1);
+    }
+
+    .flipper2 .front {
+        background: url("images/s-big02.png") no-repeat;
+        background-size: 100% 100%;
+
+    }
+    .flipper3 .front {
+        background: url("images/s-big03.png") no-repeat;
+        background-size: 100% 100%;
+           
+    }
+    </style>
 </head>
+
 <body>
-	
-	<div class="flipper">
-		<div class="back"></div>
-		<div class="front"></div>
-	</div>
-	
+    <div class="flipper1">
+        <div class="back"></div>
+        <div class="front"></div>
+    </div>
+    <div class="flipper2">
+        <div class="back"></div>
+        <div class="front"></div>
+    </div>
+    <div class="flipper3">
+        <div class="back"></div>
+        <div class="front"></div>
+    </div>
+    <div class="flipper4">
+        <div class="back">
+            <img src="images/s-bg01.png" alt="">
+        </div>
+        <div class="front">
+            <img src="images/s-rotate01.jpg" alt="">
+        </div>
+    </div>
 </body>
-<script src="zepto.js"></script>
-<script src="flip-fx.js"></script>
+<script src="lib/zepto.js"></script>
+<script src="js/flip-fx.js"></script>
+
+<script>
+
+    $('body').height($(window).height());
+
+    $(function() {
+        a = $('.flipper4').flip({
+            images: ["images/s-big07.png", "images/s-rotate07.jpg"],
+            useImgTag: true
+        });
+        // a.flip('start');
+
+        return;
+
+        a = $('.flipper1').flip({
+            images: ["images/s-big01.png", "images/s-rotate01.jpg"]
+        });
+        b = $('.flipper2').flip({
+            images: ["images/s-big02.png", "images/s-rotate02.jpg"]
+        });
+        c = $('.flipper3').flip({
+            images: ["images/s-big03.png", "images/s-rotate03.jpg"]
+        });
+
+        setTimeout(function() {
+            a.flip('start', function() {
+                a.flip('revert', function() {
+                    b.flip('start', function() {
+                        b.flip('revert', function() {
+                            c.flip('start', function() {
+                                c.flip("revert");
+                            })
+                        })
+                    })
+                })
+            });
+        }, 1000);
+
+    });
+</script>
+
 
 </html>
